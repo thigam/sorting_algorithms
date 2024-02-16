@@ -1,1 +1,1 @@
-A project
+A project on sorting algorithms
