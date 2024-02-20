@@ -1,7 +1,8 @@
 #include "sort.h"
 
 /**
- * selection_sort- Sorts an array of integers in ascending order using the selection sort algorithm
+ * selection_sort- Sorts an array of integers in
+ * ascending order using the selection sort algorithm
  * @array: The array to be sorted
  * @size: The length of the array
  *
@@ -17,9 +18,10 @@ void selection_sort(int *array, size_t size)
 	{
 		counter_2 = ++counter_2_holder;
 		holder_1 = counter_2;
-		while(counter_2 < size)
+		while (counter_2 < size)
 		{
-			if (array[counter_2] < array[counter_3] && array[counter_2] < array[holder_1])
+			if (array[counter_2] < array[counter_3]
+					&& array[counter_2] < array[holder_1])
 			{
 				holder_1 = counter_2;
 			}

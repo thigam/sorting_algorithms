@@ -9,57 +9,74 @@
 
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *navigator = (*list);
-	listint_t *iterator;
-	listint_t *holder_1;
-       	listint_t *holder_2;
-	int counter = 0, counter_holder = 0;
+	listint_t *end_of_sorted = *list;
+	listint_t *unsorted = (*list)->next, *holder_unsorted_prev,
+		  *holder_unsorted_next, *holder_end_of_sorted_prev, *holder_end_of_sorted;
+	int len_sorted = 0, len_sorted_holder = 0, ticker = 0;
 
-	navigator = navigator->next;
-	while(navigator)
+	if (*list == NULL || (*list)->next == NULL)
 	{
-		iterator = (*list);
-		counter = ++counter_holder;
-		while(counter > 0)
+		return;
+	}
+
+	while (unsorted)
+	{
+		ticker = 0;
+		len_sorted = ++len_sorted_holder;
+		holder_end_of_sorted = end_of_sorted;
+		holder_unsorted_next = unsorted->next;
+		while (len_sorted > 0)
 		{
-			holder_1 = navigator->next;
-			if (navigator->n < iterator->n)
+			holder_unsorted_prev = unsorted->prev;
+			holder_end_of_sorted_prev = end_of_sorted->prev;
+			if (unsorted->n < end_of_sorted->n)
 			{
-				if (navigator->prev != NULL)
+				if (end_of_sorted->prev == NULL)
 				{
-					navigator->prev->next = navigator->next;
-				}
-				if (navigator->next != NULL)
-				{
-					navigator->next->prev = navigator->prev;
-				}
-				if (iterator->prev == NULL)
-				{
-					(*list) = navigator;
-					navigator->prev = NULL;
+					*list = unsorted;
+					unsorted->prev = NULL;
 				}
 				else
 				{
-					iterator->prev->next = navigator;
-					navigator->prev = iterator->prev;
+					end_of_sorted->prev->next = unsorted;
+					unsorted->prev = end_of_sorted->prev;
 				}
-				iterator->prev = navigator;
-				navigator->next = iterator;
+				if (unsorted->next == NULL)
+				{
+					holder_unsorted_prev->next = NULL;
+				}
+				else
+				{
+					holder_unsorted_prev->next = unsorted->next;
+					unsorted->next->prev = holder_unsorted_prev;
+				}
+				unsorted->next = end_of_sorted;
+				end_of_sorted->prev = unsorted;
 				print_list(*list);
-				navigator = holder_1;
-				break;
+				len_sorted--;
+				end_of_sorted = holder_end_of_sorted_prev;
+				if (len_sorted == 0)
+				{
+					end_of_sorted = holder_end_of_sorted;
+				}
+				ticker = 1;
+				continue;
 			}
-			counter--;
-			if (counter == 0)
+			len_sorted--;
+			
+			if (len_sorted == 0 && ticker != 1)
 			{
-				holder_2 = iterator->next;
-				iterator->next = navigator;
-				navigator->prev = iterator;
-				navigator->next = holder_2;
+				end_of_sorted = unsorted;
 			}
-			iterator = iterator->next;
+			else if (len_sorted != 0)
+			{
+				end_of_sorted = holder_end_of_sorted_prev;
+			}
+			else if (len_sorted == 0 && ticker == 1)
+			{
+				end_of_sorted = holder_end_of_sorted;
+			}
 		}
-		navigator = holder_1;
+		unsorted = holder_unsorted_next;
 	}
 }
-
